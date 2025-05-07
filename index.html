@@ -17,20 +17,59 @@
       font-weight: normal;
       font-style: normal;
     }
-
-    /* Use more styles as needed */
-  
   </style>
 </head>
 <body class="p-4">
+<div class="container mt-4 bg-success">
+  <h1 class="text-center">which character are you?</h1>
+  <p>select your traits:</p>
+    <div id="app">     
+      <div class="row"> 
+        <div v-for="(availableTrait, index) in availableTraits" v-bind:key="availableTrait.id" class="col-md-4 mb-2">         
+          <div class="form-check">         
+            <input class="form-check-input" type="checkbox" v-model="selectedTraits" v-bind:id="'check' + (index+1)" v-bind:name="'option' + (index+1)" v-bind:value="availableTrait.trait">         
+            <label class="form-check-label" v-bind:for="'check' + (index+1)">{{availableTrait.trait}}</label>         
+          </div>                  
+        </div> 
+      </div>
+      <button @click="findCharacter">Reveal My Character</button>
 
-  <!-- Complete this part -->
+      <div v-if="result" class="mt-4">
+        <h2 class="text-center">you are most like: {{ result.name }}</h2>
+        <img v-bind:src="result.image" class="mx-auto d-block">
+        <p class="text-center">{{ result.description }}</p>
+      </div>
+
+      <div v-else-if="noResult" class="alert alert-warning mt-3">
+        Hmm...Either you didn't select any traits or we
+        couldn't find a match. Please try again
+      </div>
+    </div>
+  </div>
 
 <script>
 Vue.createApp({
   data() {
     return {
-      /* complete this part */
+      availableTraits: [                 
+        {id:1, trait:"Ambitious"},                 
+        {id:2, trait:"Brave"},                 
+        {id:3, trait:"Curious"},                 
+        {id:4, trait:"Kind"},                 
+        {id:5, trait:"Quiet"},                 
+        {id:6, trait:"Adventurous"},                 
+        {id:7, trait:"Protective"},                 
+        {id:8, trait:"Mischievous"},                 
+        {id:9, trait:"Loyal"},                 
+        {id:10, trait:"Independent"},                 
+        {id:11, trait:"Dreamy"},                 
+        {id:12, trait:"Funny"},                 
+        {id:13, trait:"Empathetic"},                 
+        {id:14, trait:"Hardworking"},                 
+        {id:15, trait:"Witty"},                 
+        {id:16, trait:"Mysterious"}               
+      ],                               
+         
       characters: [
         {
           name: 'Totoro',
@@ -82,7 +121,8 @@ Vue.createApp({
         }
       ],
       result: null,
-      noResult: false
+      noResult: false,
+      selectedTraits: []
     }
   },
   methods: {
